@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>BI Dashboard Builder - Insight IQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- 1. Load the main Chart.js library FIRST -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- 2. NEW: Load the regression plugin script SECOND -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-regression@1.0.1/dist/chartjs-plugin-regression.min.js"></script>
+
+</head>
+<body>
+    <!-- NEW: Standard Header -->
+    <header class="main-header">
+        <div class="container">
+            <a href="{{ url_for('index') }}" class="logo">Insight IQ</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="{{ url_for('upload_file') }}" class="nav-button">Upload Data</a></li>
+                    <li><a href="{{ url_for('process_data') }}" class="nav-button">Data Pre-processing</a></li>
+                    <li><a href="{{ url_for('custom_chart') }}" class="nav-button active">Custom Chart</a></li>
+                    <li><a href="{{ url_for('ai_chart') }}" class="nav-button">AI Chart</a></li>
+                    <li><a href="{{ url_for('summary_generator_page') }}" class="nav-button">Summary Generator</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+     <div class="bi-builder-container">
+        <!-- 1. Main Canvas Area - NOW A DASHBOARD GRID -->
+        <main id="bi-canvas" class="dashboard-grid">
+            <div class="canvas-placeholder">
+                <h3>Welcome to the Dashboard Builder</h3>
+                <p>Select a visualization from the right to add your first chart to the dashboard.</p>
+            </div>
+        </main>
+
+        <!-- 2. Right Sidebar for Controls -->
+        <aside class="bi-sidebar">
+            <div class="sidebar-pane">
+                <h4>Visualizations</h4>
+                <div class="viz-icon-grid">
+                    <div class="viz-icon" data-chart-type="bar" title="Bar Chart">📊</div>
+                    <div class="viz-icon" data-chart-type="line" title="Line Chart">📈</div> 
+                    <div class="viz-icon" data-chart-type="pie" title="Pie Chart">🥧</div>   
+                    <div class="viz-icon" data-chart-type="scatter" title="Scatter Plot">⚫</div>
+                    <div class="viz-icon" data-chart-type="doughnut" title="Doughnut Chart">🍩</div>
+                    <div class="viz-icon" data-chart-type="histogram" title="Histogram">📶</div>
+                </div>
+                <div id="viz-config-wells">
+                    <p class="wells-placeholder">Select a chart type to see configuration options.</p>
+                </div>
+            </div>
+            
+            <div class="sidebar-pane">
+                <h4>Fields</h4>
+                <div id="fields-list">
+                    {% for col in columns %}
+                    <div class="field-item" draggable="true" 
+                         data-column-name="{{ col }}" 
+                         data-column-type="{% if col in numeric_columns %}numeric{% else %}categorical{% endif %}">
+                        {% if col in numeric_columns %}#️⃣{% else %}🇹{% endif %} {{ col }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Hidden Templates for Chart Wells -->
+    <template id="bar-wells-template">
+        <div class="config-well" data-well-type="x_axis" data-accepts="categorical"><span class="well-title">X-Axis (Category)</span></div>
+        <div class="config-well" data-well-type="y_axis" data-accepts="numeric"><span class="well-title">Y-Axis (Value)</span></div>
+        <div class="config-well" data-well-type="agg_func"><span class="well-title">Aggregation</span><select name="agg_func" class="well-select"><option value="sum">Sum</option><option value="mean">Average</option><option value="count">Count</option></select></div>
+    </template>
+    
+    <!-- NEW: Line Chart Template -->
+    <template id="line-wells-template">
+        <div class="config-well" data-well-type="x_axis" data-accepts="categorical"><span class="well-title">X-Axis (Time/Category)</span></div>
+        <div class="config-well" data-well-type="y_axis" data-accepts="numeric"><span class="well-title">Y-Axis (Value)</span></div>
+        <div class="config-well" data-well-type="agg_func"><span class="well-title">Aggregation</span><select name="agg_func" class="well-select"><option value="sum">Sum</option><option value="mean">Average</option></select></div>
+    </template>
+    
+    <!-- NEW: Pie Chart Template -->
+    <template id="pie-wells-template">
+         <div class="config-well" data-well-type="category" data-accepts="categorical"><span class="well-title">Category / Slices</span></div>
+         <div class="config-well" data-well-type="values" data-accepts="numeric"><span class="well-title">Values</span></div>
+    </template>
+
+    <template id="scatter-wells-template">
+         <div class="config-well" data-well-type="x_axis" data-accepts="numeric"><span class="well-title">X-Axis (Numeric)</span></div>
+         <div class="config-well" data-well-type="y_axis" data-accepts="numeric"><span class="well-title">Y-Axis (Numeric)</span></div>
+         <!-- NEW: Checkbox option for the trend line -->
+         <div class="well-option">
+            <input type="checkbox" id="scatter-show-line" name="showLine">
+            <label for="scatter-show-line">Show Dotted Trend Line</label>
+         </div>
+    </template>
+    
+    
+    <template id="doughnut-wells-template">
+        <div class="config-well" data-well-type="category" data-accepts="categorical"><span class="well-title">Category / Slices</span></div>
+        <div class="config-well" data-well-type="values" data-accepts="numeric"><span class="well-title">Values</span></div>
+    </template>
+    <template id="histogram-wells-template">
+        <div class="config-well" data-well-type="column" data-accepts="numeric"><span class="well-title">Column (Numeric)</span></div>
+        <div class="well-option"><span>Bins:</span><input type="number" name="bins" class="well-input" value="10" min="2" max="50"></div>
+    </template>
+    
+        <template id="chart-module-template">
+    <div class="chart-module" tabindex="0">
+        <div class="chart-header">
+            <h5 class="chart-title">New Chart</h5>
+            <div class="chart-actions">
+                <!-- This button will now be controlled by CSS hover -->
+                <button class="analyze-chart-btn" title="Get AI Insights">Insights 🤖</button>
+                <button class="delete-chart-btn" title="Delete Chart">×</button>
+            </div>
+        </div>
+        <div class="chart-body">
+            <p class="chart-placeholder-text">Configure this chart...</p>
+        </div>
+    </div>
+</template>
+
+    <div id="insights-modal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div id="modal-body">
+            <!-- AI analysis will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<footer class="main-footer">
+    <p>&copy; 2024 Insight IQ. All Rights Reserved.</p>
+</footer>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

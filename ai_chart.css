@@ -1,0 +1,358 @@
+/* --- AI CHART PAGE: ADVANCED DESIGN SYSTEM --- */
+/* This file contains all styles for the modern, animated AI Chart Generator page. */
+
+/* --- CSS Variables for Easy Theming --- */
+:root {
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --secondary-color: #6c757d;
+    --light-gray: #f8f9fa;
+    --border-color: #dee2e6;
+    --text-dark: #343a40;
+    --text-light: #6c757d;
+    --body-bg: #ffffff;
+    --animation-duration: 0.6s;
+}
+
+/* --- Classic Scroll-Triggered Animation --- */
+[data-scroll-anim] {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity var(--animation-duration) ease-out, transform var(--animation-duration) ease-out;
+}
+
+[data-scroll-anim].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Hero Section Design --- */
+.ai-hero {
+    background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(26,26,116,1) 35%, rgba(0,123,255,1) 100%);
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+    margin-bottom: -60px; /* Overlap with the content below */
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    max-width: 600px;
+    margin: 15px auto 0;
+    opacity: 0.9;
+}
+
+/* --- Main Content Layout --- */
+.page-content {
+    background: var(--body-bg);
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 2;
+}
+
+/* --- Control Panel Design --- */
+.control-panel {
+    display: flex;          /* This is the magic line! It arranges children side-by-side. */
+    align-items: center;    /* This vertically aligns the input and button nicely. */
+    gap: 10px;              /* This adds a bit of space between the input and the button. */
+    width: 100%;            /* Ensure the container takes up the full available width. */
+}
+
+/* It's also good practice to make the input field flexible */
+.input-wrapper {
+    flex-grow: 1;           /* This tells the input wrapper to take up all available extra space. */
+    display: flex;          /* Make this a flex container too for the icon inside */
+    align-items: center;
+}
+
+#ai-prompt-input {
+    flex-grow: 1;           /* Make the actual input field expand */
+    /* Remove any fixed width you might have set on it */
+    width: auto; 
+}
+
+/* Style the button so it's clearly visible */
+#generate-from-prompt-btn {
+    background-color: #007bff; /* Example background color */
+    color: white;             /* Make the icon white */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem; /* Make the icon a bit bigger */
+    flex-shrink: 0; /* Prevents the button from shrinking */
+}
+
+#generate-from-prompt-btn:hover {
+    background-color: #0056b3; /* Darker on hover */
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+}
+
+#ai-prompt-input {
+    width: 100%;
+    padding: 15px 20px 15px 50px; /* Make space for icon */
+    font-size: 1.1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 30px; /* Pill shape */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+    color: var(--text-dark);
+}
+
+#ai-prompt-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+}
+
+.icon-button {
+    background: var(--primary-color);
+    color: white;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    
+}
+
+.icon-button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* --- Suggestions Panel & Ghost Button --- */
+.suggestions-panel {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.divider-text {
+    display: block;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.ghost-button {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ghost-button:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
+}
+
+/* --- Enhanced Chart Grid & Placeholder --- */
+.ai-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 30px;
+    min-height: 400px;
+}
+
+.placeholder-content {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 40px;
+    background-color: var(--light-gray);
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    text-align: center;
+    color: var(--text-light);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.placeholder-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.placeholder-content h3 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.placeholder-content p {
+    font-size: 1.1rem;
+    max-width: 500px;
+}
+
+/* --- Status, Loading & Chart Module Styles --- */
+.ai-chart-grid .status-message,
+.ai-chart-grid .loading {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.ai-chart-grid .status-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.ai-chart-grid .status-message.loading::after,
+.ai-chart-grid .loading::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin-top: 15px;
+    border-radius: 50%;
+    border: 4px solid #ccc;
+    border-top-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Re-use chart module style from dashboard for consistency */
+.ai-chart-grid .chart-module {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.ai-chart-grid .chart-module.error {
+    background-color: #fff3f3;
+    border: 1px solid #f5c6cb;
+}
+.ai-chart-grid .chart-module.error .chart-title {
+    color: #721c24;
+}
+.ai-chart-grid .chart-module.error p {
+    color: #721c24;
+    padding: 20px;
+}
+
+/* In ai_chart.css */
+
+/* --- Chart Module Header --- */
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.chart-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.insight-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.insight-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+.insight-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* --- Chart Module Footer & Insight Text --- */
+.chart-footer {
+    padding: 10px 15px;
+    background-color: var(--light-gray);
+    min-height: 40px; /* Reserve space */
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.loading-insight {
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.ai-insight {
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.ai-insight .fa-sparkles {
+    color: var(--primary-color);
+    margin-right: 8px;
+    opacity: 0.8;
+}
+
+.error-insight {
+    color: #721c24; /* Red for errors */
+    font-weight: 500;
+    margin: 0;
+}

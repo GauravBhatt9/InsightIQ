@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chart Generator - Insight IQ</title>
+
+    <!-- Main Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ai_chart.css') }}">
+    
+    <!-- THIS LINE IS THE MOST IMPORTANT PART - MAKE SURE IT IS HERE -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Fonts and Chart.js Library -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Standard Header -->
+    <header class="main-header">
+        <div class="container">
+            <a href="{{ url_for('index') }}" class="logo">Insight IQ</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="{{ url_for('upload_file') }}" class="nav-button">Upload Data</a></li>
+                    <li><a href="{{ url_for('process_data') }}" class="nav-button">Data Pre-processing</a></li>
+                    <li><a href="{{ url_for('custom_chart') }}" class="nav-button">Custom Chart</a></li>
+                    <li><a href="{{ url_for('ai_chart') }}" class="nav-button active">AI Chart</a></li>
+                    <li><a href="{{ url_for('summary_generator_page') }}" class="nav-button">Summary Generator</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="ai-chart-page">
+        <!-- New Hero Section -->
+        <section class="ai-hero" data-scroll-anim>
+            <div class="container">
+                <h1 class="hero-title">Visualize with Intelligence</h1>
+                <p class="hero-subtitle">Transform your data into stunning charts simply by describing what you want to see.</p>
+            </div>
+        </section>
+
+        <div class="container page-content">
+            <!-- AI Control Panel -->
+            <section class="control-panel" data-scroll-anim data-delay="100">
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lightbulb input-icon"></i>
+                    <input type="text" id="ai-prompt-input" placeholder="e.g., Show total sales per region as a pie chart">
+                </div>
+                <button id="generate-from-prompt-btn" class="icon-button" title="Generate Chart from Prompt">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </section>
+
+            <!-- AI Suggestions Panel -->
+            <section class="suggestions-panel" data-scroll-anim data-delay="200">
+                <span class="divider-text">OR</span>
+                <button id="generate-dashboard-btn" class="ghost-button">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Let AI Build a Dashboard
+                </button>
+            </section>
+
+            <!-- Chart Display Grid -->
+            <div class="ai-chart-grid" id="ai-chart-grid">
+                <div class="placeholder-content" data-scroll-anim data-delay="300">
+                    <div class="placeholder-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3>Your AI-Powered Charts Will Appear Here</h3>
+                    <p>Use the controls above to bring your data to life.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 Insight IQ. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Link to the dedicated JS file -->
+    <script src="{{ url_for('static', filename='ai_chart.js') }}"></script>
+</body>
+</html>
