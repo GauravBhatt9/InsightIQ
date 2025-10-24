@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Data - Insight IQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="/" class="logo">Insight IQ</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="{{ url_for('upload_file') }}" class="nav-button active">Upload Data</a></li>
+                    <li><a href="#" class="nav-button">Data Pre-processing</a></li>
+                    <li><a href="#" class="nav-button">Custom Chart</a></li>
+                    <li><a href="#" class="nav-button">AI Chart</a></li>
+                    <li><a href="#" class="nav-button">Summary Generator</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="upload-container">
+            <h1>Upload Your Data File</h1>
+            <p>Please select an Excel (.xls, .xlsx) or .csv file to begin your analysis.</p>
+
+            <form id="upload-form">
+                <input type="file" id="fileInput" accept=".csv, .xls, .xlsx" hidden/>
+                <div id="file-drop-area">
+                    <label for="fileInput" class="file-label">
+                        <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                        <span class="file-message">Drag & drop your file here, or click to browse</span>
+                        <span class="file-name-display"></span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn" disabled>Upload & Analyze</button>
+            </form>
+            
+            <div id="response-message"></div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 Insight IQ. All Rights Reserved.</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='upload.js') }}"></script>
+</body>
+</html>
