@@ -1,0 +1,141 @@
+/* --- SUMMARY GENERATOR PAGE STYLES --- */
+
+/* Hero section - can reuse from ai_chart.css or define new */
+.summary-hero {
+    background: linear-gradient(45deg, #00416a, #799f0c, #ffe000);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 15px auto 0;
+}
+
+.page-content {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* --- Controls & Button --- */
+.summary-controls {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.action-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.action-button:hover:not(:disabled) {
+    background-color: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 123, 255, 0.4);
+}
+
+.action-button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* --- Result Container & States --- */
+.summary-result {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 30px;
+    min-height: 300px;
+    background: #f8f9fa;
+    transition: background-color 0.3s;
+}
+
+.summary-result.loaded {
+    background-color: #fff;
+}
+
+.placeholder-content {
+    text-align: center;
+    color: #6c757d;
+}
+.placeholder-icon {
+    font-size: 3rem;
+    opacity: 0.4;
+    margin-bottom: 15px;
+}
+
+.loading-state, .error-state {
+    text-align: center;
+    padding: 50px 20px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.error-state {
+    color: #721c24; /* Red for errors */
+    background-color: #f8d7da;
+    border-radius: 8px;
+}
+
+/* --- Rendered Markdown Styles --- */
+.summary-result h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 5px;
+}
+.summary-result h4 {
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+.summary-result ul {
+    list-style-type: disc;
+    padding-left: 25px;
+}
+.summary-result li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+/* Add this to your CSS file */
+
+.hidden {
+    display: none !important;
+}
+
+/* Style for the secondary download button */
+.action-button.secondary {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: none;
+}
+
+.action-button.secondary:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
+}
